@@ -1,42 +1,40 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
 import { Link } from "react-router-dom";
 import { signin } from "../helpers/auth";
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+function Login() {
+
+    const [state, setState] = useState({
             error: null,
             email: "",
             password: ""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    });
+      
   
-    }
+    
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
+    const handleChange = async (e) => {
+        setState({
+            [e.target.name]: e.target.value
         });
     }
 
-    async handleSubmit(event) {
-        event.preventDefault();
-        this.setState({ error: "" });
+    const handleSubmit =  async (e) =>{
+        e.preventDefault();
+        setState({ error: "" });
         try {
-            await signin(this.state.email, this.state.password);
+            await signin(state.email, state.password);
         } catch (error) {
-            this.setState({ error: error.message });
+            setState({ error: error.message });
         }
     }
     
 
-    render() {
+
         return (
             <div>
                 <form
                     autoComplete="off"
-                    onSubmit={this.handleSubmit}
+                    onSubmit={handleSubmit}
                 >
                     <h1>
                         Login to
@@ -52,22 +50,22 @@ export default class Login extends Component {
                             placeholder="Email"
                             name="email"
                             type="email"
-                            onChange={this.handleChange}
-                            value={this.state.email}
+                            onChange={handleChange}
+                            value={state.email}
                         />
                     </div>
                     <div>
                         <input
                             placeholder="Password"
                             name="password"
-                            onChange={this.handleChange}
-                            value={this.state.password}
+                            onChange={handleChange}
+                            value={state.password}
                             type="password"
                         />
                     </div>
                     <div>
-                        {this.state.error ? (
-                            <p>{this.state.error}</p>
+                        {state.error ? (
+                            <p>{state.error}</p>
                         ) : null}
                         <button type="submit">Login</button>
                     </div>
@@ -79,5 +77,6 @@ export default class Login extends Component {
                 </form>
             </div>
         );
-    }
-}
+     }
+
+export default Login;

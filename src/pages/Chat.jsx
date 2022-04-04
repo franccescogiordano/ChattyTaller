@@ -1,7 +1,6 @@
-import React, { Component } from "react";
 import { auth } from "../services/firebase";
 import { db } from "../services/firebase"
-
+import React, { Component, useEffect, useState } from 'react';
 function Chat() {
   const [state, setState] = useState({
         user: auth().currentUser,
@@ -14,7 +13,7 @@ function Chat() {
     
       const handleChange = (e) => {
         setState({
-          content: event.target.value
+          content: e.target.value
         });
       }
       const handleSubmit = async (e) => {
@@ -64,4 +63,4 @@ function Chat() {
           );
       }
   
-  
+      export default Chat;
