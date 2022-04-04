@@ -11,7 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+.nav a.active {
+  color: #fff;
+  background: #0400ff;
+}
+.nav a.inactive {
+  font-style: italic;
+}
 .divhome{
  display: flex;
  flex-direction: column;
@@ -20,3 +26,21 @@ code {
   text-align: center;
   margin-top: "5px";
 }
+a {
+  color: #7d3ea1;
+  text-decoration: none;
+}
+
+
+.nav {
+  margin-bottom: 25px;
+}
+
+.nav a {
+  background: #080808;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-right: 10px;
+  color: #fff;
+}
+

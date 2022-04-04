@@ -1,19 +1,21 @@
+import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../services/firebase";
-
-export function signup(email, password) {
-    return auth().createUserWithEmailAndPassword(email, password);
+export async function signup(email, password) {
+  console.log(email, password)
+    return await createUserWithEmailAndPassword(auth,email, password);
   }
   
-  export function signin(email, password) {
-    return auth().signInWithEmailAndPassword(email, password);
+  export async function signin(email, password){
+    console.log(email, password)
+    return await signInWithEmailAndPassword(auth,email, password);
   }
 
-  export function signInWithGoogle() {
+  export async function signInWithGoogle() {
     const provider = new auth.GoogleAuthProvider();
-    return auth().signInWithPopup(provider);
+    return await signInWithPopup(auth,provider);
   }
 
-  export function signInWithGitHub() {
+  export async function signInWithGitHub() {
     const provider = new auth.GithubAuthProvider();
-    return auth().signInWithPopup(provider);
+    return await signInWithPopup(auth,provider);
   }

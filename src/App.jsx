@@ -6,12 +6,13 @@ import {
 	Navigate
 } from 'react-router-dom';
 import Home from './pages/Home';
+import './index.css';
 import Chat from './pages/Chat';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
+import BarraDeNavegacion from './components/BarraDeNavegacion';
 
 function PublicOutlet({ authenticated, children }) {
   return (!authenticated ? children : <Navigate to='/chat' />);
@@ -49,10 +50,8 @@ function App () {
 
   return state.loading === true ? (
 		<h2>Loading...</h2>
-	) : (
-    <Router>
-    
-
+	) : ( <Router>
+       <BarraDeNavegacion className="barrita" authenticated={state.authenticated}/>
     <Routes>
       <Route path='/' element={<Home />} />
       <Route
@@ -61,26 +60,15 @@ function App () {
           <PrivateOutlet authenticated={state.authenticated}>
             <Chat />
           </PrivateOutlet>
-        }
-      />
-
-      <Route
-        path='/signup'
-        element={
-          <PublicOutlet authenticated={state.authenticated}>
-            <SignUp />
-          </PublicOutlet>
-        }
-      />
-
+        }/>
+      <Route path='/signup' element={<PublicOutlet authenticated={state.authenticated}> <SignUp /></PublicOutlet> }/>
       <Route
         path='/login'
         element={
           <PublicOutlet authenticated={state.authenticated}>
             <Login />
           </PublicOutlet>
-        }
-      />
+        }/>
     </Routes>
   </Router>
   	);

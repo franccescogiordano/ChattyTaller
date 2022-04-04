@@ -24,12 +24,8 @@ function Login() {
         } catch (error) {
           setState({ error: error.message });
         }
-
-    const handleChange = async (e) => {
-        setState({
-            [e.target.name]: e.target.value
-        });
     }
+  
 
     const handleSubmit =  async (e) =>{
         e.preventDefault();
@@ -44,56 +40,54 @@ function Login() {
 
 
         return (
-            <div>
-                <form
-                    autoComplete="off"
-                    onSubmit={handleSubmit}
-                >
+            <div className="divhome">
+                <form  className="form-group" autoComplete="off" onSubmit={handleSubmit} >
                     <h1>
                         Login to
                         <Link to="/">
                             Chatty
                         </Link>
                     </h1>
-                    <p>
+                    <p className="mb-0"> 
                         Fill in the form below to login to your account.
                     </p>
-                    <div>
-                        <input
+                    <div className="form-group">
+                        <input className="form-control"
                             placeholder="Email"
                             name="email"
                             type="email"
-                            onChange={handleChange}
+                            onChange={(e) => setState({...state,email : e.target.value})}
                             value={state.email}
                         />
                     </div>
-                    <div>
+                    <div className="form-group">
                         <input
+                        className="form-control"
                             placeholder="Password"
                             name="password"
-                            onChange={handleChange}
+                            onChange={(e) => setState({...state,password : e.target.value})}
                             value={state.password}
                             type="password"
                         />
                     </div>
-                    <div>
+                    <div className="form-group">
                         {state.error ? (
                             <p>{state.error}</p>
                         ) : null}
-                        <button type="submit">Login</button>
+                        <button className="btn btn-primary" type="submit">Login</button>
                     </div>
                     <hr />
-                    <p>
+                    <p className="lead">
                         Don't have an account? <Link to="/signup">Sign up</Link>
                     </p>
-                    <button type="button" onClick={githubSignIn}>Sign up with GitHub</button>
-          <p>Or</p>
-                    <button onClick={googleSignIn} type="button">
+                    <button className="btn btn-primary" type="button" onClick={githubSignIn}>Sign up with GitHub</button>
+          <p className="mb-0">Or</p>
+                    <button className="btn btn-primary" onClick={googleSignIn} type="button">
                         Sign up with Google
                     </button>
                 </form>
             </div>
         );
-     }
+     
     }
 export default Login;
