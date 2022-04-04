@@ -1,73 +1,90 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Route,
 	BrowserRouter as Router,
 	Routes,
-	Navigate,
-	Outlet,
+	Navigate
 } from 'react-router-dom';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import { auth } from './services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
-function PublicOutlet({ component: Component, authenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={(props) => authenticated === false
-        ? <Component {...props} />
-        : <Navigate to='/chat' />}
-    />
-  )
+
+function PublicOutlet({ authenticated, children }) {
+  return (!authenticated ? children : <Navigate to='/chat' />);
 }
 
-function PrivateOutlet({ component: Component, authenticated, ...rest }) {
+function PrivateOutlet({ authenticated, children}) {
   return (
-    <Route
-      {...rest}
-      render={(props) => authenticated === true
-        ? <Component {...props} />
-        : <Navigate to={{ pathname: '/login', state: { from: props.location } }} />}
-    />
-  )
+   authenticated ? children : <Navigate to='/login' />
+  );
 }
 
-export default class  App extends Component () {
-  constructor() {
-    super();
-    this.state = {
+function App () {
+
+  const [state, setState] = useState({
       authenticated: false,
       loading: true,
-    };
-  }
-  componentDidMount() {
-    auth().onAuthStateChanged((user) => {
+    });
+  
+  useEffect(() => {
+    onAuthStateChanged(auth,(user) => {
       if (user) {
-        this.setState({
+        setState({
           authenticated: true,
           loading: false,
         });
       } else {
-        this.setState({
+        setState({
           authenticated: false,
           loading: false,
         });
       }
     })
+  },[]);
+
+
+  return state.loading === true ? (
+		<h2>Loading...</h2>
+	) : (
+    <Router>
+    
+
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route
+        path='/chat'
+        element={
+          <PrivateOutlet authenticated={state.authenticated}>
+            <Chat />
+          </PrivateOutlet>
+        }
+      />
+
+      <Route
+        path='/signup'
+        element={
+          <PublicOutlet authenticated={state.authenticated}>
+            <Signup />
+          </PublicOutlet>
+        }
+      />
+
+      <Route
+        path='/login'
+        element={
+          <PublicOutlet authenticated={state.authenticated}>
+            <Login />
+          </PublicOutlet>
+        }
+      />
+    </Routes>
+  </Router>
+  	);
+  
   }
 
-  render() {
-  return this.state.loading === true ? <h2>Loading...</h2> : (
-    <Router>
-      <Routes>
-        <Route exact path="/" component={Home}></Route>
-        <PrivateOutlet path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateOutlet>
-        <PublicOutlet path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicOutlet>
-        <PublicOutlet path="/login" authenticated={this.state.authenticated} component={Login}></PublicOutlet>
-      </Routes>
-    </Router>
-  );
-}
-}
+export default App;
