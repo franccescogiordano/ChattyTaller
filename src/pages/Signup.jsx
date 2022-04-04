@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { signup, signInWithGoogle, signInWithGitHub } from "../helpers/auth";
+import {  signInWithGoogle, signInWithGitHub } from "../helpers/auth";
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +37,7 @@ export default class SignUp extends Component {
 
   render() {
     return (
+        <>
       <div>
         <form onSubmit={this.handleSubmit}>
           <h1>
@@ -63,7 +64,8 @@ export default class SignUp extends Component {
                     </button>
         </form>
 
-</div>
-    )
+    </div>
+    </>
+    );
   }
 }

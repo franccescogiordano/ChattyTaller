@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signin, signInWithGoogle, signInWithGitHub } from "../helpers/auth";
+import { signin } from "../helpers/auth";
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -11,8 +11,7 @@ export default class Login extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.googleSignIn = this.googleSignIn.bind(this);
-        this.githubSignIn = this.githubSignIn.bind(this);
+  
     }
 
     handleChange(event) {
