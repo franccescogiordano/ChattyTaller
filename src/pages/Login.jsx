@@ -1,6 +1,7 @@
 import React, { Component,useState } from "react";
 import { Link } from "react-router-dom";
 import { signin } from "../helpers/auth";
+import {  signInWithGoogle, signInWithGitHub } from "../helpers/auth";
 function Login() {
 
     const [state, setState] = useState({
@@ -10,7 +11,19 @@ function Login() {
     });
       
   
-    
+    const googleSignIn = async() => {
+        try {
+          await signInWithGoogle();
+        } catch (error) {
+          setState({ error: error.message });
+        }
+      }
+      const githubSignIn = async() => {
+        try {
+          await signInWithGitHub();
+        } catch (error) {
+          setState({ error: error.message });
+        }
 
     const handleChange = async (e) => {
         setState({
@@ -73,10 +86,14 @@ function Login() {
                     <p>
                         Don't have an account? <Link to="/signup">Sign up</Link>
                     </p>
-                   
+                    <button type="button" onClick={githubSignIn}>Sign up with GitHub</button>
+          <p>Or</p>
+                    <button onClick={googleSignIn} type="button">
+                        Sign up with Google
+                    </button>
                 </form>
             </div>
         );
      }
-
+    }
 export default Login;

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
-import Signup from './pages/Signup';
+import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -68,7 +68,7 @@ function App () {
         path='/signup'
         element={
           <PublicOutlet authenticated={state.authenticated}>
-            <Signup />
+            <SignUp />
           </PublicOutlet>
         }
       />
