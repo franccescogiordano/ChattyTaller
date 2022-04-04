@@ -10,7 +10,8 @@ import Chat from './pages/Chat';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import { auth } from './services/firebase';
-export class AppLogic extends Component {
+
+export default class  App extends Component () {
   constructor() {
     super();
     this.state = {
@@ -33,14 +34,8 @@ export class AppLogic extends Component {
       }
     })
   }
-  
-}
 
-
-function App() {
-
-
-  
+  render() {
   return this.state.loading === true ? <h2>Loading...</h2> : (
     <Router>
       <Routes>
@@ -52,5 +47,4 @@ function App() {
     </Router>
   );
 }
-
-export default App;
+}
