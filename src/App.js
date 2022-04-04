@@ -1,15 +1,38 @@
 import React, { Component } from 'react';
 import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  Redirect,
-} from "react-router-dom";
+	Route,
+	BrowserRouter as Router,
+	Routes,
+	Navigate,
+	Outlet,
+} from 'react-router-dom';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import { auth } from './services/firebase';
+
+function PublicOutlet({ component: Component, authenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => authenticated === false
+        ? <Component {...props} />
+        : <Navigate to='/chat' />}
+    />
+  )
+}
+
+function PrivateOutlet({ component: Component, authenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => authenticated === true
+        ? <Component {...props} />
+        : <Navigate to={{ pathname: '/login', state: { from: props.location } }} />}
+    />
+  )
+}
 
 export default class  App extends Component () {
   constructor() {
@@ -40,9 +63,9 @@ export default class  App extends Component () {
     <Router>
       <Routes>
         <Route exact path="/" component={Home}></Route>
-        <PrivateRoute path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateRoute>
-        <PublicRoute path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicRoute>
-        <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
+        <PrivateOutlet path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateOutlet>
+        <PublicOutlet path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicOutlet>
+        <PublicOutlet path="/login" authenticated={this.state.authenticated} component={Login}></PublicOutlet>
       </Routes>
     </Router>
   );

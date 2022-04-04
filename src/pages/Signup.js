@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { signup } from '../helpers/auth';
 import { signup, signInWithGoogle, signInWithGitHub } from "../helpers/auth";
 export default class SignUp extends Component {
     constructor(props) {
